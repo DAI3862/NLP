@@ -20,13 +20,16 @@ tfidf = joblib.load('..\preprocessor.model')
 def student():
     return render_template('SPAM_Detector.html')
 
-@app.route('/spamfinder', method= ['GET', 'POST'])
+@app.route('/spamfinder', methods= ['GET', 'POST'])
 def result():
     if request.method == 'POST':
         data = dict(request.form)
         message = tfidf.transform([data['message']])
         data['result'] = classifier.predict(message[0])
         return render_template('spamoutput.html', data=data)
+    
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # def check():
 #     classifier = joblib.load('classifier.model')
